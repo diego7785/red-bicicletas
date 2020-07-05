@@ -35,11 +35,11 @@ Bicicleta.removeById = function (id) {
 }
 
 //Ejemplos
-var bici1 = new Bicicleta(1, 'Rojo', 'Urbana', [-34.6012424, -58.3861497]);
-var bici2 = new Bicicleta(2, 'Blanco', 'Urbana', [-34.596932, -58.3808287]);
+/* var bici1 = new Bicicleta(1, 'Rojo', 'Urbana', [3.006990, -76.485660]);
+var bici2 = new Bicicleta(2, 'Blanco', 'Urbana', [3.008104, -76.486390]);
 
 Bicicleta.add(bici1);
-Bicicleta.add(bici2);
+Bicicleta.add(bici2); */
 
 
 module.exports = Bicicleta; //Es como volver el objeto publico para que todos lo puedan usar
