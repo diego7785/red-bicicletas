@@ -2,8 +2,7 @@ var Bicicleta = require('../../models/bicicleta');
 var server = require('../../bin/www'); // Solo importarlo ya interpreta todo el archivo, levanta el servidor y al terminar la ejecucion muere ese hilo, apagando el server
 var request = require('request');
 
-beforeEach(() => { console.log('testeando...') });
-beforeEach(() => { Bicicleta.allBicis = [] });
+beforeEach(() => { Bicicleta.allBicis = []; })
 describe('Bicicleta API', () => {
     describe('GET Bicicletas /', () => {
         it('Status 200', () => {
@@ -33,4 +32,42 @@ describe('Bicicleta API', () => {
             });
         });
     });
+
+    describe('POST Bicicletas /delete', () => {
+        it('Status 200', (done) => {  // Creo  que se debe usar cuando se hace un post
+            expect(Bicicleta.allBicis.length).toBe(0);
+            var bici = new Bicicleta(1, 'Rojo', 'Urbana', [3.006990, -76.485660]);
+            Bicicleta.add(bici);
+            var headers = { 'content-type': 'application/json' };
+            var bici = '{ "id" : "1"}';
+            request.post({
+                headers: headers,
+                url: 'http://localhost:5000/api/bicicletas/delete',
+                body: bici
+            }, function (error, response, body) {
+                expect(response.statusCode).toBe(200);
+                done();
+            });
+        });
+    })
+
+    describe('POST Bicicletas /update', () => {
+        it('Status 200', (done) => {  // Creo  que se debe usar cuando se hace un post
+            expect(Bicicleta.allBicis.length).toBe(0);
+            var bici = new Bicicleta(1, 'Rojo', 'Urbana', [3.006990, -76.485660]);
+            Bicicleta.add(bici);
+            var headers = { 'content-type': 'application/json' };
+            var bici = '{ "id": "1", "color": "Negro", "modelo": "Montaña", "lat": "-34", "lng": "-54" }';
+            request.post({
+                headers: headers,
+                url: 'http://localhost:5000/api/bicicletas/update',
+                body: bici
+            }, function (error, response, body) {
+                expect(response.statusCode).toBe(200);
+                expect(Bicicleta.findById(1).color).toBe('Negro');
+                expect(Bicicleta.findById(1).modelo).toBe('Montaña');
+                done();
+            });
+        });
+    })
 });
